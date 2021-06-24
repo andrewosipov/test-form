@@ -15,6 +15,7 @@ const getOptions = (optionsString: string) => {
 }
 
 export const useCreateForm = ({ source }: IUseCreateFormProps): IUseCreateFormResult => {
+  // parse fields source
   const fields = useMemo(() => {
     const resultFields: IField[] = []
     const regExp = /\[([^\]]*)\]/gmi
@@ -39,7 +40,7 @@ export const useCreateForm = ({ source }: IUseCreateFormProps): IUseCreateFormRe
       }
       resultFields.push(field)
     }
-    console.log(requiredIfFields)
+
     resultFields.forEach((field) => {
       if (requiredIfFields.includes(field.name)) {
         field.required = true
@@ -48,7 +49,7 @@ export const useCreateForm = ({ source }: IUseCreateFormProps): IUseCreateFormRe
     return resultFields ?? []
   }, [source])
 
-  const formState = useMemo(() => {
+  const initialFormState = useMemo(() => {
     const result: TFormState = {}
     fields.forEach(({ name, value = '' }) => {
       result[name] = value
@@ -58,6 +59,6 @@ export const useCreateForm = ({ source }: IUseCreateFormProps): IUseCreateFormRe
 
   return {
     fields,
-    initialFormState: formState
+    initialFormState
   }
 }
