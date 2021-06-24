@@ -11,7 +11,7 @@ export const Field = styled.div`
   flex-direction: column;
   align-items: flex-start;
 
-  input:invalid, textarea:invalid {
+  input:invalid, textarea:invalid, &.error input, &.error textarea {
     border-color: #c44b4b;
     background: rgba(246, 222, 222, 0.17);
   }
@@ -22,11 +22,16 @@ export const Field = styled.div`
   }
 `
 
+export const Error = styled.div`
+  color: #c44b4b;
+`
+
 const InputCss = css`
   border: 1px solid #50bcce;
   color: #2f7784;
   background: #fff;
   padding: 10px 20px;
+  box-sizing: border-box;
   &:not([type=checkbox], [type=radio]) {
     width: 100%;
   }
@@ -51,6 +56,10 @@ export const TextArea = styled.textarea`
 
 export const Select = styled.select`
   ${InputCss}
+
+  select {
+    width: 100%;
+  }
 `
 
 export const Option = styled.option``

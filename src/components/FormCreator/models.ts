@@ -20,7 +20,6 @@ export const FieldTypes: { [key: string]: string } = {
 export interface IFormCreatorProps {
   source: string
   onSubmit: (e: FormEvent<HTMLFormElement>, formState: TFormState) => void
-  onError: (e: FormEvent<HTMLFormElement>, formState: TFormState) => void
 }
 
 export interface IUseCreateFormProps {

@@ -15,7 +15,11 @@ export const Source = styled.div`
 `
 
 export const Form = styled(Source)`
-  flex: 0 0 40%;
+  flex: 0 0 45%;
+  
+  form {
+    width: 100%;
+  }
 `
 
 export const FormResult = styled(Source)`

@@ -1,17 +1,16 @@
 import React, { FC, FormEvent, useState, useCallback } from 'react'
 
 import { useCreateForm } from './useCreateForm.hook'
-import { IFormCreatorProps } from './models'
+import { IFormCreatorProps, TFormState } from './models'
 import Field from './Field'
 
 import * as Styled from './styles'
 
 const FormCreator: FC<IFormCreatorProps> = ({ source, onSubmit }) => {
-  const { fields, initialFormState } = useCreateForm({ source })
-  const [formState, setFormState] = useState(initialFormState)
+  const { fields } = useCreateForm({ source })
+  const [formState, setFormState] = useState<TFormState>({})
   const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    // onSubmit(e, formState)
+    onSubmit(e, formState)
   }
 
   const onChange = useCallback((e) => {
@@ -21,15 +20,19 @@ const FormCreator: FC<IFormCreatorProps> = ({ source, onSubmit }) => {
     }))
   }, [])
 
-  console.log(fields, formState)
-
   return (
     <div>
       <Styled.Container>
         <form onSubmit={onFormSubmit}>
           {
             fields.map((field, index) => (
-              <Field key={index} {...field} id={`field-${index}`} value={formState[field.name]} onChange={onChange} />
+              <Field
+                key={index}
+                {...field}
+                id={`field-${index}`}
+                value={formState[field.name]}
+                onChange={onChange}
+              />
             ))
           }
           <Styled.Field>

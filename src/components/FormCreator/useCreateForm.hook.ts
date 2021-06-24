@@ -19,6 +19,7 @@ export const useCreateForm = ({ source }: IUseCreateFormProps): IUseCreateFormRe
     const resultFields: IField[] = []
     const regExp = /\[([^\]]*)\]/gmi
     let findResult: RegExpExecArray | null
+    const requiredIfFields: string[] = []
     while ((findResult = regExp.exec(source)) !== null) {
       const fieldProps = findResult[1].split(/\|+/mgi) ?? []
       const field: IField = { name: '', type: 'text' }
@@ -32,8 +33,18 @@ export const useCreateForm = ({ source }: IUseCreateFormProps): IUseCreateFormRe
         const value = key === 'options' ? getOptions(keyValue[1].trim()) : keyValue[1].trim()
         field[key] = value
       })
+      if (field['require-if']) {
+        field.required = true
+        requiredIfFields.push(field['require-if'])
+      }
       resultFields.push(field)
     }
+    console.log(requiredIfFields)
+    resultFields.forEach((field) => {
+      if (requiredIfFields.includes(field.name)) {
+        field.required = true
+      }
+    })
     return resultFields ?? []
   }, [source])
 

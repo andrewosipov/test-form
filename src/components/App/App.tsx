@@ -4,8 +4,8 @@ import FormCreator from '../FormCreator'
 import * as Styled from './styles'
 
 const initSource = `
+[name:textField| type:text | label:Text field | require-if:name]
 [name:name | label:Textarea | type:textarea |value:1]
-[name:textField| type:text | label:Text field]
 [name:checkbox| label:Checkbox field | type:checkbox]
 [name:checkbox2| label:Required checkbox| type:checkbox | required:true]
 [name:radio | type:radio | label:Radio button ]
@@ -23,14 +23,10 @@ const initSource = `
 const App: FC = () => {
   const [formSource, setFormSource] = useState(initSource)
   const [formResult, setFormResult] = useState()
-  const [formError, setFormError] = useState()
   const onChange = (e: FormEvent<HTMLTextAreaElement>) => setFormSource(e.currentTarget.value)
   const onSubmit = useCallback((e, formState) => {
+    e.preventDefault()
     setFormResult(formState)
-  }, [])
-
-  const onError = useCallback((e, formState) => {
-    setFormError(formState)
   }, [])
 
   return (
@@ -47,16 +43,14 @@ const App: FC = () => {
             <pre>{JSON.stringify(formResult, null, 2)}</pre>
           </Styled.FormResult>
         )}
-        {formError}
       </Styled.Source>
-      <Styled.Source>
+      <Styled.Form>
         <p>Generated Form</p>
         <FormCreator
           source={formSource}
-          onError={onError}
           onSubmit={onSubmit}
         />
-      </Styled.Source>
+      </Styled.Form>
     </Styled.Container>
   )
 }
